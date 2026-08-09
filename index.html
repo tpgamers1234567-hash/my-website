@@ -1,91 +1,103 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <h1>My First Website</h1>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>YXT GAMING</title>
 
     <style>
-    nav {
-    text-align: center;
-    margin: 20px;
-}
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #e0ffff;
+            text-align: center;
+        }
 
-nav a {
-    display: inline-block;
-    margin: 5px;
-    text-decoration: none;
-    color: darkblue;
-    font-weight: bold;
-    background-color: white;
-    padding: 8px 12px;
-    border-radius: 6px;
-}
-nav a:hover {
-    background-color: darkblue;
-    color: white;
-}
-.welcome {
-    text-align: center;
-    background-color: white;
-    padding: 20px;
-    margin: 20px;
-    border-radius: 12px;
-}
-.welcome h2 {
-    color: red;
-}
-    body {
-    background-color: lightcyan;
-}
-h1 {
-    color: darkblue;
-}
-p {
-    color: darkgreen;
-}
-img {
-    display: block;
-    margin: auto;
-}
-button {
-    background-color: darkblue;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    display: block;
-margin: 20px auto;
-}
-  </style>
+        h1 {
+            color: darkblue;
+            font-size: 42px;
+            margin-top: 35px;
+        }
+
+        .menu {
+            margin: 25px 0;
+        }
+
+        .menu a {
+            display: inline-block;
+            background: white;
+            color: darkblue;
+            text-decoration: none;
+            padding: 15px 25px;
+            margin: 5px;
+            border-radius: 10px;
+            font-size: 20px;
+        }
+
+        .box {
+            background: white;
+            width: 80%;
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 30px;
+            border-radius: 20px;
+        }
+
+        .box h2 {
+            color: darkblue;
+        }
+
+        .box p {
+            color: green;
+            font-size: 20px;
+        }
+
+        .my-photo {
+            width: 90%;
+            max-width: 500px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .about-button {
+            display: inline-block;
+            background: darkblue;
+            color: white;
+            text-decoration: none;
+            padding: 15px 35px;
+            border-radius: 12px;
+            font-size: 20px;
+            margin-top: 20px;
+        }
+    </style>
 </head>
-<body>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="about.html">About Me</a>
-    <a href="https://www.youtube.com/@PIEUGAMING" target="_blank">YouTube</a>
-</nav>
-<section class=welcome
-    <h2 style="color: darkblue;">Welcome to My Website!</h2>
-    <p>Thanks for visiting my website.</p>
-    <a href="https://www.youtube.com/@PIEUGAMING" target="_system">
-    <button>Visit My YouTube Channel</button>
-</a>
-</a>
-</section>
-  <header>
-    <h2>YXT GAMING</h2>
-</header>
-    <h1>Assalamu Alaikum</h1>
-    <p>এটি আমার প্রথম ওয়েবসাইট।</p>
-    <img src="photo.jpg" width="300">
-    <a href=https://www.youtube.com/@PIEUGAMING>আমার YouTube চ্যানেল</a>
-    <a href="about.html">
-    <button>About Me</button>
-</a>
 
-    <script>
-    function hello() {
-        alert("আমার ওয়েবসাইটে আপনাকে স্বাগতম!");
-    }
-</script>
+<body>
+
+    <h1>YXT GAMING</h1>
+
+    <div class="menu">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Me</a>
+    </div>
+
+    <div class="box">
+
+        <h2>Assalamu Alaikum</h2>
+
+        <p>Welcome to my website!</p>
+
+        <!-- আপনার ছবির নাম এখানে দিতে হবে -->
+        <img src="myphoto.jpg" alt="My Photo" class="my-photo">
+
+        <br>
+
+        <a href="about.html" class="about-button">
+            About Me
+        </a>
+
+    </div>
+
 </body>
 </html>
