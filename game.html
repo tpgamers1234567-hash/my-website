@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YXT Coin Hunter</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #090014;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .game-screen {
+            width: 100%;
+            max-width: 500px;
+            min-height: 100vh;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 20px;
+            color: #ff55dd;
+            text-shadow: 0 0 15px #ff00cc;
+        }
+
+        .game-stats {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .game-stats > div {
+            flex: 1;
+            padding: 12px 5px;
+            border-radius: 15px;
+            background: #18052b;
+            border: 1px solid #7200ff;
+        }
+
+        .game-stats span {
+            display: block;
+            font-size: 11px;
+            color: #aaa;
+            margin: 5px 0;
+        }
+
+        .game-stats b {
+            font-size: 20px;
+        }
+
+        .combo {
+            margin: 12px;
+            color: #ffd000;
+        }
+
+        #gameArea {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 22px;
+            border: 2px solid #7200ff;
+            background: #10001d;
+            box-shadow: 0 0 25px rgba(120, 0, 255, .35);
+        }
+
+        #target {
+            position: absolute;
+            width: 85px;
+            height: 85px;
+            border: 0;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7b00ff, #ff00cc);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 20px #ff00cc;
+            transition: transform .15s;
+        }
+
+        #target:active {
+            transform: scale(.85);
+        }
+
+        #target.golden {
+            background: linear-gradient(135deg, #fff000, #ff9800);
+            color: #4a2600;
+            box-shadow: 0 0 30px #ffd000;
+        }
+
+        #target.neon-skin {
+            background: linear-gradient(
+                135deg,
+                #00ffff,
+                #0066ff,
+                #ff00ff
+            );
+
+            border: 3px solid white;
+
+            box-shadow:
+                0 0 10px #00ffff,
+                0 0 25px #0066ff,
+                0 0 40px #ff00ff;
+        }
+
+        .game-tip {
+            margin: 15px 0;
+            color: #aaa;
+            font-size: 13px;
+        }
+
+        .back-btn {
+            padding: 12px 25px;
+            border: 1px solid #7200ff;
+            border-radius: 12px;
+            background: #18052b;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="game-screen">
+
+    <h1>🪙 COIN HUNTER</h1>
+
+    <div class="game-stats">
+
+        <div>
+            🏆
+            <span>Score</span>
+            <b id="score">0</b>
+        </div>
+
+        <div>
+            🪙
+            <span>Coins</span>
+            <b id="coins">0</b>
+        </div>
+
+        <div>
+            ⏱️
+            <span>Time</span>
+            <b id="timer">30</b>
+        </div>
+
+    </div>
+
+    <div class="combo">
+        🔥 Combo ×<b id="combo">0</b>
+    </div>
+
+    <div id="gameArea">
+        <button id="target">TAP!</button>
+    </div>
+
+    <div class="game-tip">
+        🎯 Tap the target as fast as you can!
+    </div>
+
+    <button class="back-btn" onclick="location.href='index.html'">
+        🏠 HOME
+    </button>
+
+</div>
+
+<script>
+
+let score = 0;
+
+let coins =
+    Number(localStorage.getItem("yxtCoins") || 0);
+
+let combo = 0;
+
+let timeLeft = 30;
+
+let goldenTarget = false;
+
+let gameTimer;
+
+let targetTimer;
+
+
+// -------------------------
+// UPDATE DISPLAY
+// -------------------------
+
+function updateDisplay() {
+
+    document.getElementById("score").textContent =
+        score;
+
+    document.getElementById("coins").textContent =
+        coins;
+
+    document.getElementById("combo").textContent =
+        combo;
+
+    document.getElementById("timer").textContent =
+        timeLeft;
+}
+
+
+// -------------------------
+// MOVE TARGET
+// -------------------------
+
+function moveTarget() {
+
+    const area =
+        document.getElementById("gameArea");
+
+    const target =
+        document.getElementById("target");
+
+    if (!area || !target) return;
+
+    goldenTarget =
+        Math.random() < 0.15;
+
+    const neonUnlocked =
+        localStorage.getItem("yxtReward_neon")
+        === "unlocked";
+
+    if (goldenTarget) {
+
+        target.classList.add("golden");
+
+        target.classList.remove("neon-skin");
+
+        target.textContent = "🪙";
+
+    } else {
+
+        target.classList.remove("golden");
+
+        if (neonUnlocked) {
+            target.classList.add("neon-skin");
+        } else {
+            target.classList.remove("neon-skin");
+        }
+
+        target.textContent = "TAP!";
+    }
+
+    const maxX =
+        Math.max(
+            0,
+            area.clientWidth - target.offsetWidth
+        );
+
+    const maxY =
+        Math.max(
+            0,
+            area.clientHeight - target.offsetHeight
+        );
+
+    target.style.left =
+        Math.random() * maxX + "px";
+
+    target.style.top =
+        Math.random() * maxY + "px";
+}
+
+
+// -------------------------
+// HIT TARGET
+// -------------------------
+
+function hitTarget() {
+
+    score++;
+
+    combo++;
+
+    let earnedCoins = 1;
+
+    if (goldenTarget) {
+        earnedCoins = 5;
+    }
+
+    if (combo % 5 === 0) {
+        earnedCoins += 3;
+    }
+
+    coins += earnedCoins;
+
+    localStorage.setItem(
+        "yxtCoins",
+        coins
+    );
+
+    updateDisplay();
+
+    moveTarget();
+}
+
+
+// -------------------------
+// END GAME
+// -------------------------
+
+function endGame() {
+
+    clearInterval(gameTimer);
+
+    clearInterval(targetTimer);
+
+    const oldBest =
+        Number(
+            localStorage.getItem("yxtBestScore") || 0
+        );
+
+    if (score > oldBest) {
+
+        localStorage.setItem(
+            "yxtBestScore",
+            score
+        );
+    }
+
+    alert(
+        "🏆 GAME OVER\n\n" +
+        "Score: " + score + "\n" +
+        "Coins: " + coins
+    );
+
+    location.href = "index.html";
+}
+
+
+// -------------------------
+// START
+// -------------------------
+
+document
+    .getElementById("target")
+    .addEventListener(
+        "click",
+        hitTarget
+    );
+
+moveTarget();
+
+updateDisplay();
+
+targetTimer =
+    setInterval(
+        moveTarget,
+        650
+    );
+
+gameTimer =
+    setInterval(
+        function () {
+
+            timeLeft--;
+
+            updateDisplay();
+
+            if (timeLeft <= 0) {
+                endGame();
+            }
+
+        },
+        1000
+    );
+
+</script>
+
+</body>
+</html>
