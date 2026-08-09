@@ -1,160 +1,261 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YXT Coin Hunter</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YXT GAMING</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
+* {
+    box-sizing: border-box;
+}
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: Arial, sans-serif;
-            background: #090014;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background:
+        radial-gradient(circle at top, #26004d, #090014 55%);
+    color: white;
+}
 
-        .game-screen {
-            width: 100%;
-            max-width: 500px;
-            min-height: 100vh;
-            padding: 20px;
-            text-align: center;
-        }
+.app {
+    width: 100%;
+    max-width: 520px;
+    min-height: 100vh;
+    margin: auto;
+    padding: 20px;
+}
 
-        h1 {
-            margin-top: 20px;
-            color: #ff55dd;
-            text-shadow: 0 0 15px #ff00cc;
-        }
+h1 {
+    text-align: center;
+    color: #ff55dd;
+    text-shadow: 0 0 20px #ff00cc;
+}
 
-        .game-stats {
-            display: flex;
-            gap: 10px;
-            margin: 20px 0;
-        }
+.subtitle {
+    text-align: center;
+    color: #aaa;
+}
 
-        .game-stats > div {
-            flex: 1;
-            padding: 12px 5px;
-            border-radius: 15px;
-            background: #18052b;
-            border: 1px solid #7200ff;
-        }
+.stats {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+}
 
-        .game-stats span {
-            display: block;
-            font-size: 11px;
-            color: #aaa;
-            margin: 5px 0;
-        }
+.stat {
+    flex: 1;
+    padding: 14px 5px;
+    text-align: center;
+    border-radius: 16px;
+    background: rgba(30, 5, 50, .9);
+    border: 1px solid #7200ff;
+}
 
-        .game-stats b {
-            font-size: 20px;
-        }
+.stat span {
+    display: block;
+    font-size: 12px;
+    color: #aaa;
+}
 
-        .combo {
-            margin: 12px;
-            color: #ffd000;
-        }
+.stat b {
+    font-size: 21px;
+}
 
-        #gameArea {
-            position: relative;
-            width: 100%;
-            height: 400px;
-            overflow: hidden;
-            border-radius: 22px;
-            border: 2px solid #7200ff;
-            background: #10001d;
-            box-shadow: 0 0 25px rgba(120, 0, 255, .35);
-        }
+.menu {
+    display: grid;
+    gap: 15px;
+    margin-top: 30px;
+}
 
-        #target {
-            position: absolute;
-            width: 85px;
-            height: 85px;
-            border: 0;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #7b00ff, #ff00cc);
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 0 20px #ff00cc;
-            transition: transform .15s;
-        }
+button {
+    width: 100%;
+    padding: 15px;
+    border: 0;
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+}
 
-        #target:active {
-            transform: scale(.85);
-        }
+.play {
+    background: linear-gradient(90deg, #7200ff, #ff00cc);
+    box-shadow: 0 0 20px rgba(255,0,204,.35);
+}
 
-        #target.golden {
-            background: linear-gradient(135deg, #fff000, #ff9800);
-            color: #4a2600;
-            box-shadow: 0 0 30px #ffd000;
-        }
+.shop {
+    background: linear-gradient(90deg, #ff8800, #ffcc00);
+    color: #271500;
+}
 
-        #target.neon-skin {
-            background: linear-gradient(
-                135deg,
-                #00ffff,
-                #0066ff,
-                #ff00ff
-            );
+.back {
+    margin-top: 15px;
+    background: #18052b;
+    border: 1px solid #7200ff;
+}
 
-            border: 3px solid white;
+.screen {
+    display: none;
+}
 
-            box-shadow:
-                0 0 10px #00ffff,
-                0 0 25px #0066ff,
-                0 0 40px #ff00ff;
-        }
+.screen.active {
+    display: block;
+}
 
-        .game-tip {
-            margin: 15px 0;
-            color: #aaa;
-            font-size: 13px;
-        }
+#gameArea {
+    position: relative;
+    height: 400px;
+    margin-top: 20px;
+    overflow: hidden;
+    border-radius: 22px;
+    border: 2px solid #7200ff;
+    background: #10001d;
+    box-shadow: 0 0 25px rgba(120,0,255,.35);
+}
 
-        .back-btn {
-            padding: 12px 25px;
-            border: 1px solid #7200ff;
-            border-radius: 12px;
-            background: #18052b;
-            color: white;
-            font-weight: bold;
-        }
-    </style>
+#target {
+    position: absolute;
+    width: 85px;
+    height: 85px;
+    border: 0;
+    border-radius: 50%;
+    background: linear-gradient(135deg,#7b00ff,#ff00cc);
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 0 20px #ff00cc;
+}
+
+#target.golden {
+    background: linear-gradient(135deg,#fff000,#ff9800);
+    color: #4a2600;
+    box-shadow: 0 0 30px #ffd000;
+}
+
+#target.neon-skin {
+    background: linear-gradient(
+        135deg,
+        #00ffff,
+        #0066ff,
+        #ff00ff
+    );
+    border: 3px solid white;
+    box-shadow:
+        0 0 10px #00ffff,
+        0 0 25px #0066ff,
+        0 0 40px #ff00ff;
+}
+
+.combo {
+    text-align: center;
+    margin: 15px;
+    color: #ffd000;
+}
+
+.result {
+    margin-top: 25px;
+    padding: 25px;
+    text-align: center;
+    border-radius: 20px;
+    background: #18052b;
+    border: 1px solid #7200ff;
+}
+
+.shop-item {
+    margin: 15px 0;
+    padding: 20px;
+    text-align: center;
+    border-radius: 20px;
+    background: #18052b;
+    border: 1px solid #7200ff;
+}
+
+.shop-item .icon {
+    font-size: 45px;
+}
+
+.shop-item h2 {
+    color: #ff55dd;
+}
+
+.buy {
+    background: linear-gradient(90deg,#6a00ff,#ff00cc);
+}
+
+.small {
+    color: #aaa;
+    font-size: 13px;
+}
+</style>
 </head>
 
 <body>
 
-<div class="game-screen">
+<div class="app">
+
+<!-- ================= HOME ================= -->
+
+<section id="homeScreen" class="screen active">
+
+    <h1>🎮 YXT GAMING</h1>
+
+    <p class="subtitle">
+        Welcome to your Game Zone
+    </p>
+
+    <div class="stats">
+
+        <div class="stat">
+            🪙
+            <span>Coins</span>
+            <b id="homeCoins">0</b>
+        </div>
+
+        <div class="stat">
+            🏆
+            <span>Best Score</span>
+            <b id="homeBest">0</b>
+        </div>
+
+    </div>
+
+    <div class="menu">
+
+        <button class="play" onclick="showScreen('gameScreen'); startGame()">
+            🎯 PLAY COIN HUNTER
+        </button>
+
+        <button class="shop" onclick="showShop()">
+            🛒 REWARD SHOP
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= GAME ================= -->
+
+<section id="gameScreen" class="screen">
 
     <h1>🪙 COIN HUNTER</h1>
 
-    <div class="game-stats">
+    <div class="stats">
 
-        <div>
+        <div class="stat">
             🏆
             <span>Score</span>
             <b id="score">0</b>
         </div>
 
-        <div>
+        <div class="stat">
             🪙
             <span>Coins</span>
             <b id="coins">0</b>
         </div>
 
-        <div>
+        <div class="stat">
             ⏱️
             <span>Time</span>
             <b id="timer">30</b>
@@ -170,17 +271,102 @@
         <button id="target">TAP!</button>
     </div>
 
-    <div class="game-tip">
+    <p class="subtitle">
         🎯 Tap the target as fast as you can!
+    </p>
+
+    <button class="back" onclick="goHome()">
+        🏠 GAME HOME
+    </button>
+
+</section>
+
+
+<!-- ================= SHOP ================= -->
+
+<section id="shopScreen" class="screen">
+
+    <h1>🛒 REWARD SHOP</h1>
+
+    <div class="stats">
+
+        <div class="stat">
+            🪙
+            <span>Your Coins</span>
+            <b id="shopCoins">0</b>
+        </div>
+
     </div>
 
-    <button class="back-btn" onclick="location.href='index.html'">
-        🏠 HOME
+
+    <div class="shop-item">
+
+        <div class="icon">🎨</div>
+
+        <h2>Neon Skin</h2>
+
+        <p class="small">
+            Give your target a cool neon look.
+        </p>
+
+        <button class="buy"
+                onclick="buyReward('neon',100)">
+            🪙 100 COINS
+        </button>
+
+    </div>
+
+
+    <div class="shop-item">
+
+        <div class="icon">⚡</div>
+
+        <h2>Lightning Effect</h2>
+
+        <p class="small">
+            Unlock a special hit effect.
+        </p>
+
+        <button class="buy"
+                onclick="buyReward('lightning',250)">
+            🪙 250 COINS
+        </button>
+
+    </div>
+
+
+    <div class="shop-item">
+
+        <div class="icon">👑</div>
+
+        <h2>Royal Theme</h2>
+
+        <p class="small">
+            Unlock the special royal theme.
+        </p>
+
+        <button class="buy"
+                onclick="buyReward('royal',500)">
+            🪙 500 COINS
+        </button>
+
+    </div>
+
+
+    <button class="back" onclick="goHome()">
+        🏠 GAME HOME
     </button>
+
+</section>
 
 </div>
 
+
 <script>
+
+// ==========================
+// VARIABLES
+// ==========================
 
 let score = 0;
 
@@ -193,34 +379,117 @@ let timeLeft = 30;
 
 let goldenTarget = false;
 
-let gameTimer;
+let gameTimer = null;
 
-let targetTimer;
+let targetTimer = null;
 
 
-// -------------------------
-// UPDATE DISPLAY
-// -------------------------
+// ==========================
+// SCREEN CONTROL
+// ==========================
 
-function updateDisplay() {
+function showScreen(id) {
 
-    document.getElementById("score").textContent =
-        score;
+    document
+        .querySelectorAll(".screen")
+        .forEach(screen => {
+            screen.classList.remove("active");
+        });
 
-    document.getElementById("coins").textContent =
-        coins;
-
-    document.getElementById("combo").textContent =
-        combo;
-
-    document.getElementById("timer").textContent =
-        timeLeft;
+    document
+        .getElementById(id)
+        .classList.add("active");
 }
 
 
-// -------------------------
-// MOVE TARGET
-// -------------------------
+// ==========================
+// HOME
+// ==========================
+
+function updateHome() {
+
+    coins =
+        Number(localStorage.getItem("yxtCoins") || 0);
+
+    const best =
+        Number(localStorage.getItem("yxtBestScore") || 0);
+
+    document.getElementById("homeCoins")
+        .textContent = coins;
+
+    document.getElementById("homeBest")
+        .textContent = best;
+}
+
+function goHome() {
+
+    clearInterval(gameTimer);
+    clearInterval(targetTimer);
+
+    gameTimer = null;
+    targetTimer = null;
+
+    updateHome();
+
+    showScreen("homeScreen");
+}
+
+
+// ==========================
+// GAME
+// ==========================
+
+function startGame() {
+
+    clearInterval(gameTimer);
+    clearInterval(targetTimer);
+
+    score = 0;
+
+    coins =
+        Number(localStorage.getItem("yxtCoins") || 0);
+
+    combo = 0;
+
+    timeLeft = 30;
+
+    updateGameDisplay();
+
+    moveTarget();
+
+    targetTimer =
+        setInterval(moveTarget,650);
+
+    gameTimer =
+        setInterval(function(){
+
+            timeLeft--;
+
+            updateGameDisplay();
+
+            if(timeLeft <= 0) {
+                endGame();
+            }
+
+        },1000);
+}
+
+
+function updateGameDisplay() {
+
+    document.getElementById("score")
+        .textContent = score;
+
+    document.getElementById("coins")
+        .textContent = coins;
+
+    document.getElementById("combo")
+        .textContent = combo;
+
+    document.getElementById("timer")
+        .textContent = timeLeft;
+}
+
 
 function moveTarget() {
 
@@ -230,19 +499,18 @@ function moveTarget() {
     const target =
         document.getElementById("target");
 
-    if (!area || !target) return;
+    if(!area || !target) return;
 
     goldenTarget =
-        Math.random() < 0.15;
+        Math.random() < .15;
 
     const neonUnlocked =
         localStorage.getItem("yxtReward_neon")
         === "unlocked";
 
-    if (goldenTarget) {
+    if(goldenTarget) {
 
         target.classList.add("golden");
-
         target.classList.remove("neon-skin");
 
         target.textContent = "🪙";
@@ -251,7 +519,7 @@ function moveTarget() {
 
         target.classList.remove("golden");
 
-        if (neonUnlocked) {
+        if(neonUnlocked) {
             target.classList.add("neon-skin");
         } else {
             target.classList.remove("neon-skin");
@@ -280,9 +548,13 @@ function moveTarget() {
 }
 
 
-// -------------------------
-// HIT TARGET
-// -------------------------
+document
+    .getElementById("target")
+    .addEventListener(
+        "click",
+        hitTarget
+    );
+
 
 function hitTarget() {
 
@@ -292,11 +564,11 @@ function hitTarget() {
 
     let earnedCoins = 1;
 
-    if (goldenTarget) {
+    if(goldenTarget) {
         earnedCoins = 5;
     }
 
-    if (combo % 5 === 0) {
+    if(combo % 5 === 0) {
         earnedCoins += 3;
     }
 
@@ -307,20 +579,15 @@ function hitTarget() {
         coins
     );
 
-    updateDisplay();
+    updateGameDisplay();
 
     moveTarget();
 }
 
 
-// -------------------------
-// END GAME
-// -------------------------
-
 function endGame() {
 
     clearInterval(gameTimer);
-
     clearInterval(targetTimer);
 
     const oldBest =
@@ -328,7 +595,7 @@ function endGame() {
             localStorage.getItem("yxtBestScore") || 0
         );
 
-    if (score > oldBest) {
+    if(score > oldBest) {
 
         localStorage.setItem(
             "yxtBestScore",
@@ -338,50 +605,73 @@ function endGame() {
 
     alert(
         "🏆 GAME OVER\n\n" +
-        "Score: " + score + "\n" +
-        "Coins: " + coins
+        "Score: " + score +
+        "\n🪙 Coins: " + coins
     );
 
-    location.href = "index.html";
+    updateHome();
+
+    showScreen("homeScreen");
 }
 
 
-// -------------------------
-// START
-// -------------------------
+// ==========================
+// SHOP
+// ==========================
 
-document
-    .getElementById("target")
-    .addEventListener(
-        "click",
-        hitTarget
+function showShop() {
+
+    coins =
+        Number(localStorage.getItem("yxtCoins") || 0);
+
+    document.getElementById("shopCoins")
+        .textContent = coins;
+
+    showScreen("shopScreen");
+}
+
+
+function buyReward(item,price) {
+
+    let currentCoins =
+        Number(
+            localStorage.getItem("yxtCoins") || 0
+        );
+
+    if(currentCoins < price) {
+
+        alert(
+            "🪙 আপনার Coin যথেষ্ট নেই!"
+        );
+
+        return;
+    }
+
+    currentCoins -= price;
+
+    localStorage.setItem(
+        "yxtCoins",
+        currentCoins
     );
 
-moveTarget();
-
-updateDisplay();
-
-targetTimer =
-    setInterval(
-        moveTarget,
-        650
+    localStorage.setItem(
+        "yxtReward_" + item,
+        "unlocked"
     );
 
-gameTimer =
-    setInterval(
-        function () {
-
-            timeLeft--;
-
-            updateDisplay();
-
-            if (timeLeft <= 0) {
-                endGame();
-            }
-
-        },
-        1000
+    alert(
+        "✅ Reward unlocked!"
     );
+
+    showShop();
+}
+
+
+// ==========================
+// INITIAL HOME
+// ==========================
+
+updateHome();
 
 </script>
 
