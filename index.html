@@ -1,103 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YXT GAMING</title>
 
-    <title>YXT GAMING</title>
+<style>
+* {
+    box-sizing: border-box;
+}
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #e0ffff;
-            text-align: center;
-        }
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    color: white;
+    text-align: center;
+    background:
+        radial-gradient(circle at 50% 0%, #3b0875 0%, transparent 45%),
+        linear-gradient(135deg, #030008, #10001f, #020006);
+    overflow-x: hidden;
+}
 
-        h1 {
-            color: darkblue;
-            font-size: 42px;
-            margin-top: 35px;
-        }
+.container {
+    width: 90%;
+    max-width: 650px;
+    margin: auto;
+    padding: 45px 15px;
+}
 
-        .menu {
-            margin: 25px 0;
-        }
+.logo {
+    width: 170px;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #ff00cc;
+    box-shadow:
+        0 0 15px #ff00cc,
+        0 0 35px #8a00ff,
+        0 0 60px #8a00ff;
+    margin-bottom: 20px;
+}
 
-        .menu a {
-            display: inline-block;
-            background: white;
-            color: darkblue;
-            text-decoration: none;
-            padding: 15px 25px;
-            margin: 5px;
-            border-radius: 10px;
-            font-size: 20px;
-        }
+h1 {
+    margin: 5px 0;
+    font-size: 45px;
+    letter-spacing: 3px;
+    text-shadow:
+        0 0 10px #ff00cc,
+        0 0 25px #8a00ff;
+}
 
-        .box {
-            background: white;
-            width: 80%;
-            max-width: 600px;
-            margin: 30px auto;
-            padding: 30px;
-            border-radius: 20px;
-        }
+.tagline {
+    color: #d8caff;
+    font-size: 18px;
+    margin: 12px 0 30px;
+}
 
-        .box h2 {
-            color: darkblue;
-        }
+.card {
+    background: rgba(20, 5, 40, 0.8);
+    border: 1px solid #8a00ff;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 0 20px rgba(138, 0, 255, 0.35);
+}
 
-        .box p {
-            color: green;
-            font-size: 20px;
-        }
+.card h2 {
+    margin-top: 0;
+    color: #ff55dd;
+}
 
-        .my-photo {
-            width: 90%;
-            max-width: 500px;
-            border-radius: 15px;
-            margin-top: 20px;
-        }
+.card p {
+    color: #d8caff;
+    line-height: 1.6;
+}
 
-        .about-button {
-            display: inline-block;
-            background: darkblue;
-            color: white;
-            text-decoration: none;
-            padding: 15px 35px;
-            border-radius: 12px;
-            font-size: 20px;
-            margin-top: 20px;
-        }
-    </style>
+.button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 15px 35px;
+    color: white;
+    text-decoration: none;
+    font-size: 19px;
+    font-weight: bold;
+    border-radius: 14px;
+    background: linear-gradient(90deg, #6a00ff, #ff00cc);
+    box-shadow: 0 0 15px #8a00ff;
+    transition: 0.25s;
+}
+
+.button:hover {
+    transform: scale(1.05);
+    box-shadow:
+        0 0 20px #ff00cc,
+        0 0 40px #8a00ff;
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 25px;
+    flex-wrap: wrap;
+}
+
+.stat {
+    min-width: 140px;
+    padding: 15px;
+    border-radius: 14px;
+    background: rgba(40, 10, 70, 0.8);
+    border: 1px solid #6a00ff;
+}
+
+.stat strong {
+    display: block;
+    color: #ff55dd;
+    font-size: 18px;
+}
+
+.stat span {
+    color: #cbbcff;
+    font-size: 13px;
+}
+
+footer {
+    margin-top: 30px;
+    color: #8f80a8;
+    font-size: 13px;
+}
+</style>
 </head>
 
 <body>
 
+<div class="container">
+
+    <!-- আপনার ছবির নাম এখানে দিন -->
+    <img src="photo.png" alt="YXT GAMING" class="logo">
+
     <h1>YXT GAMING</h1>
 
-    <div class="menu">
-        <a href="index.html">Home</a>
-        <a href="about.html">About Me</a>
+    <div class="tagline">
+        🎮 PLAY • FIGHT • DOMINATE 🎮
     </div>
 
-    <div class="box">
+    <div class="card">
 
-        <h2>Assalamu Alaikum</h2>
+        <h2>Welcome to YXT GAMING</h2>
 
-        <p>Welcome to my website!</p>
+        <p>
+            Welcome to my gaming world!
+            Here you can find my social links,
+            gaming content and more.
+        </p>
 
-        <!-- আপনার ছবির নাম এখানে দিতে হবে -->
-        <img src="myphoto.jpg" alt="My Photo" class="my-photo">
-
-        <br>
-
-        <a href="about.html" class="about-button">
-            About Me
+        <a href="about.html" class="button">
+            🚀 ENTER MY WORLD
         </a>
 
     </div>
+
+    <div class="stats">
+
+        <div class="stat">
+            <strong>🎮 GAMING</strong>
+            <span>Free Fire</span>
+        </div>
+
+        <div class="stat">
+            <strong>🔥 CONTENT</strong>
+            <span>Gaming Creator</span>
+        </div>
+
+        <div class="stat">
+            <strong>⚡ YXT</strong>
+            <span>Gaming Zone</span>
+        </div>
+
+    </div>
+
+    <footer>
+        © 2026 YXT GAMING
+    </footer>
+
+</div>
 
 </body>
 </html>
