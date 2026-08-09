@@ -1,56 +1,211 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>about me</title>
-    <img src="photo.jpg" width="200">
-    <style>
-    body {
-        background-color: lightblue;
-    }
-    h1 {
-    color: darkblue;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YXT GAMING - Links</title>
+
+<style>
+* {
+    box-sizing: border-box;
 }
-p {
-    color: darkgreen;
-    text-align: center;
-}
-img {
-    display: block;
-    margin: 20px auto;
-}
-button {
-    background-color: darkblue;
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
     color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
+    text-align: center;
+    background:
+        radial-gradient(circle at 50% 0%, #3b0875 0%, transparent 45%),
+        linear-gradient(135deg, #030008, #10001f, #020006);
+}
+
+.container {
+    width: 90%;
+    max-width: 650px;
+    margin: auto;
+    padding: 35px 15px;
+}
+
+.logo {
+    width: 130px;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #ff00cc;
+    box-shadow:
+        0 0 15px #ff00cc,
+        0 0 35px #8a00ff;
+}
+
+h1 {
+    font-size: 38px;
+    margin: 15px 0 5px;
+    letter-spacing: 2px;
+    text-shadow:
+        0 0 10px #ff00cc,
+        0 0 25px #8a00ff;
+}
+
+.subtitle {
+    color: #cbbcff;
+    margin-bottom: 30px;
+}
+
+.link-card {
     display: block;
-margin: 20px auto;
+    text-decoration: none;
+    color: white;
+    margin: 18px 0;
+    padding: 20px;
+    border-radius: 18px;
+    background: rgba(20, 5, 40, 0.85);
+    border: 1px solid #7a00ff;
+    box-shadow: 0 0 15px rgba(122, 0, 255, 0.4);
+    transition: 0.25s;
+}
+
+.link-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    border-color: #ff00cc;
+    box-shadow:
+        0 0 20px #ff00cc,
+        0 0 35px #7a00ff;
+}
+
+.icon {
+    font-size: 32px;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.title {
+    display: block;
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.description {
+    display: block;
+    margin-top: 6px;
+    color: #cbbcff;
+    font-size: 14px;
+}
+
+.home-button {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 14px 30px;
+    border-radius: 13px;
+    color: white;
+    text-decoration: none;
+    background: linear-gradient(90deg, #6a00ff, #ff00cc);
+    box-shadow: 0 0 15px #7a00ff;
+}
+
+.profile-box {
+    margin: 25px 0;
+    padding: 20px;
+    border-radius: 18px;
+    background: rgba(20, 5, 40, 0.7);
+    border: 1px solid #4c00a8;
+}
+
+.profile-box h2 {
+    color: #ff55dd;
+    margin-top: 0;
+}
+
+.profile-box p {
+    color: #cbbcff;
+    line-height: 1.6;
+}
+
+footer {
+    margin-top: 25px;
+    color: #8f80a8;
+    font-size: 13px;
 }
 </style>
-    <p>Hello! I am a beginner web developer.</p>
-<p>I am learning HTML, CSS, and JavaScript.</p>
-<p>Welcome to my personal website!</p>
-    <a href="https://www.youtube.com/@PIEUGAMING" target="_blank">
-    <button>আমার YouTube চ্যানেল</button>
-</a>
-<p>Contact: qnme2779@gmail.com</p>
-<button onclick="showContact()">Contact Me</button>
-<script>
-    function showContact() {
-        alert("Contact: qnme2779@gmail.com");
-    }
-</script>
-</a>
-<br><br>
-
-<a href="index.html">
-    <button>হোম পেজে ফিরে যান</button>
-</a>
 </head>
+
 <body>
 
-    <h1>আমার সম্পর্কে</h1>
+<div class="container">
+
+    <!-- আপনার ছবির নাম এখানে দিন -->
+    <img src="myphoto.jpg" alt="YXT GAMING" class="logo">
+
+    <h1>YXT GAMING</h1>
+
+    <div class="subtitle">
+        🎮 MY GAMING LINKS 🎮
+    </div>
+
+    <div class="profile-box">
+
+        <h2>About Me</h2>
+
+        <p>
+            Welcome to YXT GAMING!
+            Follow my gaming journey and
+            check out my links below.
+        </p>
+
+    </div>
+
+    <!-- Instagram -->
+    <a
+        href="https://www.instagram.com/yxtgaming_0?igsh=MWJkeWFpc3M3c3AyaQ=="
+        target="_blank"
+        class="link-card">
+
+        <span class="icon">📸</span>
+        <span class="title">Instagram</span>
+        <span class="description">
+            Follow me on Instagram
+        </span>
+
+    </a>
+
+    <!-- YouTube -->
+    <a
+        href="https://www.youtube.com/@PIEUGAMING"
+        target="_blank"
+        class="link-card">
+
+        <span class="icon">▶️</span>
+        <span class="title">YouTube Channel</span>
+        <span class="description">
+            Watch my gaming videos
+        </span>
+
+    </a>
+
+    <!-- Website -->
+    <a
+        href="https://sso.garena.com"
+        target="_blank"
+        class="link-card">
+
+        <span class="icon">🌐</span>
+        <span class="title">Website</span>
+        <span class="description">
+            Visit Website
+        </span>
+
+    </a>
+
+    <a href="index.html" class="home-button">
+        🏠 BACK TO HOME
+    </a>
+
+    <footer>
+        © 2026 YXT GAMING
+    </footer>
+
+</div>
 
 </body>
 </html>
