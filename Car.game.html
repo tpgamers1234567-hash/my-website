@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>YXT CAR RUSH</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+    background: #050509;
+    color: white;
+    font-family: Arial, sans-serif;
+    touch-action: none;
+}
+
+.game {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(#111, #222);
+}
+
+.road {
+    position: absolute;
+    left: 8%;
+    right: 8%;
+    top: 0;
+    bottom: 0;
+    overflow: hidden;
+    background:
+        linear-gradient(
+            90deg,
+            #202020 0%,
+            #303030 4%,
+            #303030 96%,
+            #202020 100%
+        );
+    border-left: 5px solid #555;
+    border-right: 5px solid #555;
+}
+
+.lane {
+    position: absolute;
+    top: -120px;
+    width: 8px;
+    height: 90px;
+    background: white;
+    opacity: 0.75;
+}
+
+.lane1 {
+    left: 33.33%;
+}
+
+.lane2 {
+    left: 66.66%;
+}
+
+.hud {
+    position: absolute;
+    z-index: 20;
+    top: 15px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 10px;
+}
+
+.stat {
+    min-width: 90px;
+    padding: 9px 12px;
+    border-radius: 14px;
+    text-align: center;
+    background: rgba(0,0,0,0.75);
+    border: 1px solid #555;
+    box-shadow: 0 0 12px rgba(0,0,0,0.5);
+}
+
+.stat small {
+    display: block;
+    color: #aaa;
+    font-size: 11px;
+}
+
+.stat b {
+    font-size: 20px;
+}
+
+.car {
+    position: absolute;
+    z-index: 10;
+    bottom: 115px;
+    width: 58px;
+    height: 92px;
+    border-radius: 16px 16px 10px 10px;
+    background: linear-gradient(
+        90deg,
+        #7a00ff,
+        #ff00cc,
+        #7a00ff
+    );
+    border: 3px solid #fff;
+    box-shadow:
+        0 0 12px #ff00cc,
+        0 0 30px #7a00ff;
+}
+
+.car::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    top: 13px;
+    height: 27px;
+    border-radius: 9px;
+    background: #111;
+    border: 2px solid #aaa;
+}
+
+.car::after {
+    content: "🚗";
+    position: absolute;
+    left: 5px;
+    top: 38px;
+    font-size: 40px;
+}
+
+.enemy {
+    position: absolute;
+    z-index: 9;
+    width: 58px;
+    height: 92px;
+    border-radius: 16px 16px 10px 10px;
+    background: linear-gradient(
+        90deg,
+        #e00000,
+        #ff5500,
+        #e00000
+    );
+    border: 3px solid #fff;
+    box-shadow: 0 0 15px #ff2200;
+}
+
+.enemy::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    top: 13px;
+    height: 27px;
+    border-radius: 9px;
+    background: #111;
+    border: 2px solid #aaa;
+}
+
+.enemy::after {
+    content: "🚘";
+    position: absolute;
+    left: 5px;
+    top: 38px;
+    font-size: 40px;
+}
+
+.coin {
+    position: absolute;
+    z-index: 8;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffd700;
+    border: 3px solid #fff4a0;
+    box-shadow:
+        0 0 10px #ffd700,
+        0 0 25px #ff9900;
+    font-size: 23px;
+}
+
+.start-screen,
+.game-over {
+    position: absolute;
+    z-index: 50;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0,0,0,0.82);
+}
+
+.card {
+    width: 100%;
+    max-width: 390px;
+    padding: 28px 20px;
+    border-radius: 24px;
+    text-align: center;
+    background: linear-gradient(145deg, #15002d, #07000f);
+    border: 2px solid #8a00ff;
+    box-shadow:
+        0 0 20px #7a00ff,
+        0 0 50px rgba(255,0,204,0.35);
+}
+
+.card h1 {
+    margin: 0 0 8px;
+    font-size: 34px;
+    color: #fff;
+    text-shadow:
+        0 0 10px #ff00cc,
+        0 0 25px #7a00ff;
+}
+
+.card p {
+    color: #cbbcff;
+}
+
+.start-btn,
+.restart-btn {
+    width: 100%;
+    padding: 16px;
+    margin-top: 15px;
+    border: 0;
+    border-radius: 15px;
+    color: white;
+    font-size: 19px;
+    font-weight: bold;
+    background: linear-gradient(90deg, #6a00ff, #ff00cc);
+    box-shadow: 0 0 18px #7a00ff;
+}
+
+.controls {
+    position: absolute;
+    z-index: 30;
+    left: 0;
+    right: 0;
+    bottom: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+.control {
+    width: 90px;
+    height: 62px;
+    border: 2px solid #aaa;
+    border-radius: 18px;
+    color: white;
+    font-size: 28px;
+    background: rgba(0,0,0,0.7);
+}
+
+.control:active {
+    transform: scale(0.94);
+    background: #6a00ff;
+}
+
+.hidden {
+    display: none !important;
+}
+</style>
+</head>
+
+<body>
+
+<div class="game">
+
+    <div class="road">
+
+        <div class="lane lane1"></div>
+        <div class="lane lane2"></div>
+
+        <div id="player" class="car"></div>
+
+    </div>
+
+    <div class="hud">
+
+        <div class="stat">
+            <small>🏆 SCORE</small>
+            <b id="score">0</b>
+        </div>
+
+        <div class="stat">
+            <small>🪙 COINS</small>
+            <b id="coins">0</b>
+        </div>
+
+        <div class="stat">
+            <small>🥇 BEST</small>
+            <b id="best">0</b>
+        </div>
+
+    </div>
+
+    <div id="startScreen" class="start-screen">
+
+        <div class="card">
+
+            <h1>🏎️ YXT CAR RUSH</h1>
+
+            <p>
+                Dodge the cars and collect coins!
+            </p>
+
+            <p>
+                ◀️ ▶️ Use the buttons to move
+            </p>
+
+            <button class="start-btn" onclick="startGame()">
+                🚗 START RACE
+            </button>
+
+        </div>
+
+    </div>
+
+    <div id="gameOver" class="game-over hidden">
+
+        <div class="card">
+
+            <h1>💥 GAME OVER</h1>
+
+            <p>YOUR SCORE</p>
+            <h2 id="finalScore">0</h2>
+
+            <p>🪙 COINS</p>
+            <h2 id="finalCoins">0</h2>
+
+            <p>🥇 BEST SCORE</p>
+            <h2 id="finalBest">0</h2>
+
+            <button class="restart-btn" onclick="startGame()">
+                🔄 PLAY AGAIN
+            </button>
+
+            <button
+                class="restart-btn"
+                onclick="location.href='about.html'">
+                🏠 BACK
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="controls">
+
+        <button class="control" id="leftBtn">
+            ◀️
+        </button>
+
+        <button class="control" id="rightBtn">
+            ▶️
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+let player;
+
+let score = 0;
+let coins = 0;
+
+let best = Number(
+    localStorage.getItem("yxtCarBest") || 0
+);
+
+let savedCoins = Number(
+    localStorage.getItem("yxtCarCoins") || 0
+);
+
+let gameRunning = false;
+let playerX = 0;
+
+let enemies = [];
+let coinObjects = [];
+
+let enemyTimer;
+let coinTimer;
+let gameLoopTimer;
+
+const road = document.querySelector(".road");
+
+/* ---------------- SOUND ---------------- */
+
+let audioContext;
+
+function initSound() {
+
+    if (!audioContext) {
+        audioContext =
+            new (
+                window.AudioContext ||
+                window.webkitAudioContext
+            )();
+    }
+
+    if (audioContext.state === "suspended") {
+        audioContext.resume();
+    }
+}
+
+function playTone(
+    frequency,
+    duration,
+    type = "sine",
+    volume = 0.08
+) {
+
+    if (!audioContext) return;
+
+    const oscillator =
+        audioContext.createOscillator();
+
+    const gain =
+        audioContext.createGain();
+
+    oscillator.type = type;
+
+    oscillator.frequency.value =
+        frequency;
+
+    gain.gain.setValueAtTime(
+        volume,
+        audioContext.currentTime
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        audioContext.currentTime + duration
+    );
+
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+
+    oscillator.start();
+
+    oscillator.stop(
+        audioContext.currentTime + duration
+    );
+}
+
+function coinSound() {
+
+    playTone(700, 0.08, "square", 0.08);
+
+    setTimeout(() => {
+        playTone(1000, 0.12, "square", 0.07);
+    }, 70);
+}
+
+function crashSound() {
+
+    playTone(100, 0.35, "sawtooth", 0.12);
+
+    setTimeout(() => {
+        playTone(55, 0.45, "square", 0.08);
+    }, 100);
+}
+
+/* ---------------- GAME ---------------- */
+
+function startGame() {
+
+    initSound();
+
+    score = 0;
+
+    coins = 0;
+
+    document.getElementById("score")
+        .textContent = score;
+
+    document.getElementById("coins")
+        .textContent = coins;
+
+    document.getElementById("best")
+        .textContent = best;
+
+    document.getElementById("startScreen")
+        .classList.add("hidden");
+
+    document.getElementById("gameOver")
+        .classList.add("hidden");
+
+    clearObjects();
+
+    player =
+        document.getElementById("player");
+
+    playerX =
+        (road.clientWidth -
+         player.offsetWidth) / 2;
+
+    player.style.left =
+        playerX + "px";
+
+    gameRunning = true;
+
+    /*
+      Enemy gap বাড়ানো হয়েছে।
+      আগে 950ms ছিল,
+      এখন 1500ms।
+    */
+
+    enemyTimer =
+        setInterval(
+            createEnemy,
+            1500
+        );
+
+    coinTimer =
+        setInterval(
+            createCoin,
+            1300
+        );
+
+    gameLoopTimer =
+        setInterval(
+            gameLoop,
+            20
+        );
+}
+
+function clearObjects() {
+
+    enemies.forEach(
+        e => e.el.remove()
+    );
+
+    coinObjects.forEach(
+        c => c.el.remove()
+    );
+
+    enemies = [];
+
+    coinObjects = [];
+}
+
+/* ---------------- PLAYER ---------------- */
+
+function moveLeft() {
+
+    if (!gameRunning) return;
+
+    playerX -= 35;
+
+    if (playerX < 0) {
+        playerX = 0;
+    }
+
+    player.style.left =
+        playerX + "px";
+}
+
+function moveRight() {
+
+    if (!gameRunning) return;
+
+    playerX += 35;
+
+    const maxX =
+        road.clientWidth -
+        player.offsetWidth;
+
+    if (playerX > maxX) {
+        playerX = maxX;
+    }
+
+    player.style.left =
+        playerX + "px";
+}
+
+/* ---------------- ENEMY ---------------- */
+
+function createEnemy() {
+
+    if (!gameRunning) return;
+
+    /*
+      কখনোই একসাথে একাধিক enemy
+      তৈরি হতে দিচ্ছি না।
+    */
+
+    if (enemies.length > 0) {
+        return;
+    }
+
+    const enemy =
+        document.createElement("div");
+
+    enemy.className = "enemy";
+
+    const maxX =
+        road.clientWidth - 58;
+
+    enemy.style.left =
+        Math.random() * maxX + "px";
+
+    enemy.style.top =
+        "-100px";
+
+    road.appendChild(enemy);
+
+    enemies.push({
+
+        el: enemy,
+
+        y: -100,
+
+        speed:
+            4.5 +
+            Math.random() * 1.5
+    });
+}
+
+/* ---------------- COIN ---------------- */
+
+function createCoin() {
+
+    if (!gameRunning) return;
+
+    const coin =
+        document.createElement("div");
+
+    coin.className = "coin";
+
+    coin.textContent = "🪙";
+
+    const maxX =
+        road.clientWidth - 38;
+
+    coin.style.left =
+        Math.random() * maxX + "px";
+
+    coin.style.top =
+        "-50px";
+
+    road.appendChild(coin);
+
+    coinObjects.push({
+
+        el: coin,
+
+        y: -50,
+
+        speed: 4
+    });
+}
+
+/* ---------------- GAME LOOP ---------------- */
+
+function gameLoop() {
+
+    if (!gameRunning) return;
+
+    /* Enemy */
+
+    enemies.forEach(enemy => {
+
+        enemy.y += enemy.speed;
+
+        enemy.el.style.top =
+            enemy.y + "px";
+
+        if (
+            isColliding(
+                player,
+                enemy.el
+            )
+        ) {
+
+            crashSound();
+
+            endGame();
+        }
+
+        if (
+            enemy.y >
+            road.clientHeight
+        ) {
+
+            enemy.el.remove();
+
+            score++;
+
+            document.getElementById(
+                "score"
+            ).textContent = score;
+        }
+    });
+
+    enemies =
+        enemies.filter(
+            e =>
+                e.el.parentNode &&
+                e.y <= road.clientHeight
+        );
+
+    /* Coins */
+
+    coinObjects.forEach(coin => {
+
+        coin.y += coin.speed;
+
+        coin.el.style.top =
+            coin.y + "px";
+
+        if (
+            isColliding(
+                player,
+                coin.el
+            )
+        ) {
+
+            coins++;
+
+            coinSound();
+
+            coin.el.remove();
+
+            document.getElementById(
+                "coins"
+            ).textContent = coins;
+
+            localStorage.setItem(
+                "yxtCarCoins",
+                coins
+            );
+        }
+
+        if (
+            coin.y >
+            road.clientHeight
+        ) {
+
+            coin.el.remove();
+        }
+    });
+
+    coinObjects =
+        coinObjects.filter(
+            c => c.el.parentNode
+        );
+
+    /* Difficulty */
+
+    if (score > 20) {
+
+        enemies.forEach(
+            e => e.speed = 6
+        );
+    }
+
+    if (score > 40) {
+
+        enemies.forEach(
+            e => e.speed = 7
+        );
+    }
+
+    if (score > 70) {
+
+        enemies.forEach(
+            e => e.speed = 8
+        );
+    }
+}
+
+/* ---------------- COLLISION ---------------- */
+
+function isColliding(a, b) {
+
+    const r1 =
+        a.getBoundingClientRect();
+
+    const r2 =
+        b.getBoundingClientRect();
+
+    return !(
+        r1.right < r2.left ||
+        r1.left > r2.right ||
+        r1.bottom < r2.top ||
+        r1.top > r2.bottom
+    );
+}
+
+/* ---------------- GAME OVER ---------------- */
+
+function endGame() {
+
+    if (!gameRunning) return;
+
+    gameRunning = false;
+
+    clearInterval(enemyTimer);
+
+    clearInterval(coinTimer);
+
+    clearInterval(gameLoopTimer);
+
+    if (score > best) {
+
+        best = score;
+
+        localStorage.setItem(
+            "yxtCarBest",
+            best
+        );
+    }
+
+    savedCoins += coins;
+
+    localStorage.setItem(
+        "yxtCarCoins",
+        savedCoins
+    );
+
+    document.getElementById(
+        "finalScore"
+    ).textContent = score;
+
+    document.getElementById(
+        "finalCoins"
+    ).textContent = coins;
+
+    document.getElementById(
+        "finalBest"
+    ).textContent = best;
+
+    document.getElementById(
+        "gameOver"
+    ).classList.remove("hidden");
+}
+
+/* ---------------- TOUCH ---------------- */
+
+document.getElementById("leftBtn")
+.addEventListener(
+    "touchstart",
+    e => {
+
+        e.preventDefault();
+
+        moveLeft();
+    }
+);
+
+document.getElementById("rightBtn")
+.addEventListener(
+    "touchstart",
+    e => {
+
+        e.preventDefault();
+
+        moveRight();
+    }
+);
+
+/* ---------------- MOUSE ---------------- */
+
+document.getElementById("leftBtn")
+.addEventListener(
+    "click",
+    moveLeft
+);
+
+document.getElementById("rightBtn")
+.addEventListener(
+    "click",
+    moveRight
+);
+
+/* ---------------- KEYBOARD ---------------- */
+
+document.addEventListener(
+    "keydown",
+    e => {
+
+        if (
+            e.key ===
+            "ArrowLeft"
+        ) {
+            moveLeft();
+        }
+
+        if (
+            e.key ===
+            "ArrowRight"
+        ) {
+            moveRight();
+        }
+    }
+);
+
+document.getElementById(
+    "best"
+).textContent = best;
+
+</script>
+
+</body>
+  </html>
