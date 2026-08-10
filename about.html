@@ -103,6 +103,37 @@ h1 {
     background: linear-gradient(90deg, #6a00ff, #ff00cc);
     box-shadow: 0 0 15px #7a00ff;
 }
+    .game-button {
+    display: block;
+    text-decoration: none;
+    color: white;
+    margin: 20px 0;
+    padding: 20px;
+    border-radius: 18px;
+    background: linear-gradient(90deg, #6a00ff, #ff00cc);
+    border: 2px solid #ff55dd;
+    box-shadow:
+        0 0 15px #7a00ff,
+        0 0 30px rgba(255, 0, 204, 0.4);
+    font-size: 23px;
+    font-weight: bold;
+    transition: 0.25s;
+}
+
+.game-button span {
+    display: block;
+    margin-top: 6px;
+    color: #eadcff;
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.game-button:hover {
+    transform: scale(1.03);
+    box-shadow:
+        0 0 25px #ff00cc,
+        0 0 45px #7a00ff;
+}
 
 .profile-box {
     margin: 25px 0;
@@ -179,8 +210,10 @@ footer {
         <span class="description">
             Watch my gaming videos
         </span>
-
-    </a>
+<a href="game.html" class="game-button">
+    🎮 START GAME
+    <span>Play YXT Coin Hunter</span>
+</a>
 
     <a href="index.html" class="home-button">
         🏠 BACK TO HOME
