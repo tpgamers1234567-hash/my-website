@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FF Sensitivity Generator</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    padding:20px;
+    background:#080810;
+    color:white;
+    font-family:Arial,sans-serif;
+}
+
+.container{
+    max-width:520px;
+    margin:auto;
+}
+
+.header{
+    text-align:center;
+    padding:20px 5px;
+}
+
+.header h1{
+    font-size:27px;
+    margin:0;
+}
+
+.header p{
+    color:#aaa;
+    line-height:1.5;
+}
+
+.card{
+    background:#151522;
+    border:1px solid #2b2b40;
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:18px;
+}
+
+label{
+    display:block;
+    font-weight:bold;
+    margin:14px 0 8px;
+}
+
+input,
+select{
+    width:100%;
+    padding:14px;
+    border-radius:10px;
+    border:1px solid #39394f;
+    background:#0d0d15;
+    color:white;
+    font-size:15px;
+    outline:none;
+}
+
+.phone-results{
+    display:none;
+    margin-top:8px;
+    background:#0d0d15;
+    border:1px solid #303044;
+    border-radius:10px;
+    max-height:220px;
+    overflow-y:auto;
+}
+
+.phone{
+    padding:14px;
+    border-bottom:1px solid #252536;
+    cursor:pointer;
+}
+
+.phone:active{
+    background:#252536;
+}
+
+.phone small{
+    display:block;
+    color:#888;
+    margin-top:4px;
+}
+
+.selected{
+    margin-top:12px;
+    padding:13px;
+    border-radius:10px;
+    background:#0d0d15;
+    border:1px solid #303044;
+    color:#ddd;
+}
+
+button{
+    width:100%;
+    border:none;
+    border-radius:11px;
+    padding:14px;
+    margin-top:14px;
+    background:#ff7200;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.dark-btn{
+    background:#29293c;
+}
+
+.custom-box{
+    display:none;
+    margin-top:18px;
+    padding-top:15px;
+    border-top:1px solid #303044;
+}
+
+.help{
+    color:#999;
+    font-size:12px;
+    line-height:1.5;
+}
+
+.result{
+    display:none;
+}
+
+.info{
+    color:#aaa;
+    font-size:13px;
+    line-height:1.7;
+    margin-bottom:12px;
+}
+
+.setting{
+    display:flex;
+    justify-content:space-between;
+    padding:13px 0;
+    border-bottom:1px solid #29293a;
+}
+
+.value{
+    font-size:20px;
+    font-weight:bold;
+}
+
+.copy{
+    background:#29293c;
+}
+
+.back{
+    background:#29293c;
+}
+
+.footer{
+    text-align:center;
+    color:#777;
+    font-size:12px;
+    line-height:1.6;
+    margin:25px 5px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+    <h1>🎯 FF Sensitivity Generator</h1>
+    <p>
+        আপনার ফোন নির্বাচন করুন এবং
+        একটি starting sensitivity profile তৈরি করুন।
+    </p>
+</div>
+
+
+<div class="card">
+
+<label>📱 ফোনের নাম Search করুন</label>
+
+<input
+    id="search"
+    type="text"
+    placeholder="যেমন: Redmi Note 13"
+    autocomplete="off"
+>
+
+<div id="phoneResults" class="phone-results"></div>
+
+<div id="selected" class="selected">
+    📱 এখনো কোনো ফোন নির্বাচন করা হয়নি।
+</div>
+
+
+<button
+    type="button"
+    class="dark-btn"
+    id="customButton">
+    🔍 আমার ফোন নেই
+</button>
+
+
+<div id="customBox" class="custom-box">
+
+<h3>⚙️ Custom Device</h3>
+
+<p class="help">
+Database-এ আপনার ফোন না থাকলে নিজের device তৈরি করুন।
+</p>
+
+<label>Phone Name</label>
+
+<input
+    id="customName"
+    type="text"
+    placeholder="আপনার ফোনের নাম"
+>
+
+
+<label>RAM</label>
+
+<select id="ram">
+    <option value="3">3 GB</option>
+    <option value="4">4 GB</option>
+    <option value="6" selected>6 GB</option>
+    <option value="8">8 GB</option>
+    <option value="12">12 GB</option>
+    <option value="16">16 GB</option>
+</select>
+
+
+<label>Refresh Rate</label>
+
+<select id="hz">
+    <option value="60">60 Hz</option>
+    <option value="90">90 Hz</option>
+    <option value="120" selected>120 Hz</option>
+    <option value="144">144 Hz</option>
+    <option value="165">165 Hz</option>
+</select>
+
+
+<label>Performance</label>
+
+<select id="performance">
+    <option value="low">Low</option>
+    <option value="normal" selected>Normal</option>
+    <option value="high">High</option>
+    <option value="gaming">Gaming</option>
+</select>
+
+
+<button type="button" id="useCustom">
+    ✅ এই ফোন ব্যবহার করুন
+</button>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<label>🎮 Play Style</label>
+
+<select id="style">
+    <option value="rush">Rush / Close Range</option>
+    <option value="balanced">Balanced</option>
+    <option value="long">Long Range</option>
+</select>
+
+
+<button type="button" id="generate">
+    ⚡ Generate Sensitivity
+</button>
+
+</div>
+
+
+<div id="result" class="card result">
+
+<h2>🎯 Sensitivity Result</h2>
+
+<div id="info" class="info"></div>
+
+<div class="setting">
+    <span>General</span>
+    <span id="general" class="value">0</span>
+</div>
+
+<div class="setting">
+    <span>Red Dot</span>
+    <span id="redDot" class="value">0</span>
+</div>
+
+<div class="setting">
+    <span>2× Scope</span>
+    <span id="scope2" class="value">0</span>
+</div>
+
+<div class="setting">
+    <span>4× Scope</span>
+    <span id="scope4" class="value">0</span>
+</div>
+
+<div class="setting">
+    <span>Sniper</span>
+    <span id="sniper" class="value">0</span>
+</div>
+
+<div class="setting">
+    <span>Free Look</span>
+    <span id="freeLook" class="value">0</span>
+</div>
+
+
+<button
+    type="button"
+    class="copy"
+    id="copy">
+    📋 Copy Settings
+</button>
+
+</div>
+
+
+<button
+    type="button"
+    class="back"
+    onclick="location.href='about.html'">
+    ← Back to About
+</button>
+
+
+<div class="footer">
+    FF Sensitivity Generator
+</div>
+
+</div>
+
+
+<script>
+
+const phones = [
+
+{name:"Redmi A7 Pro 5G",brand:"Redmi",base:94},
+
+{name:"Redmi Note 13 5G",brand:"Redmi",base:94},
+{name:"Redmi Note 13 Pro 5G",brand:"Redmi",base:96},
+{name:"Redmi Note 13 Pro+ 5G",brand:"Redmi",base:97},
+{name:"Redmi Note 12 5G",brand:"Redmi",base:93},
+{name:"Redmi Note 11",brand:"Redmi",base:91},
+{name:"Redmi 12 5G",brand:"Redmi",base:92},
+{name:"Redmi 13 5G",brand:"Redmi",base:94},
+
+{name:"POCO X6 5G",brand:"POCO",base:97},
+{name:"POCO X6 Pro 5G",brand:"POCO",base:98},
+{name:"POCO X5 Pro 5G",brand:"POCO",base:96},
+{name:"POCO M6 Pro",brand:"POCO",base:93},
+
+{name:"Samsung Galaxy S24",brand:"Samsung",base:98},
+{name:"Samsung Galaxy S24 Ultra",brand:"Samsung",base:99},
+{name:"Samsung Galaxy S23",brand:"Samsung",base:98},
+{name:"Samsung Galaxy A55 5G",brand:"Samsung",base:95},
+{name:"Samsung Galaxy A35 5G",brand:"Samsung",base:94},
+{name:"Samsung Galaxy A25 5G",brand:"Samsung",base:92},
+
+{name:"Realme GT 6",brand:"Realme",base:98},
+{name:"Realme GT 6T",brand:"Realme",base:97},
+{name:"Realme 13 Pro+ 5G",brand:"Realme",base:96},
+{name:"Realme 12 Pro+ 5G",brand:"Realme",base:96},
+
+{name:"OnePlus 12",brand:"OnePlus",base:99},
+{name:"OnePlus 12R",brand:"OnePlus",base:98},
+{name:"OnePlus Nord 4",brand:"OnePlus",base:97},
+
+{name:"Vivo X100",brand:"Vivo",base:99},
+{name:"Vivo V40",brand:"Vivo",base:96},
+{name:"Vivo V30",brand:"Vivo",base:96},
+
+{name:"OPPO Find X7 Ultra",brand:"OPPO",base:99},
+{name:"OPPO Reno 12 Pro",brand:"OPPO",base:96},
+{name:"OPPO Reno 12",brand:"OPPO",base:95},
+
+{name:"iQOO 12",brand:"iQOO",base:99},
+{name:"iQOO Neo 9 Pro",brand:"iQOO",base:98},
+{name:"iQOO Z9",brand:"iQOO",base:95},
+
+{name:"Motorola Edge 50 Pro",brand:"Motorola",base:96},
+{name:"Motorola Edge 50 Fusion",brand:"Motorola",base:95},
+
+{name:"Nothing Phone 2",brand:"Nothing",base:97},
+{name:"Nothing Phone 2a",brand:"Nothing",base:94},
+
+{name:"Google Pixel 8",brand:"Google",base:97},
+{name:"Google Pixel 8 Pro",brand:"Google",base:98},
+
+{name:"ASUS ROG Phone 8",brand:"ASUS",base:99},
+{name:"ASUS ROG Phone 7",brand:"ASUS",base:99},
+
+{name:"Infinix GT 20 Pro",brand:"Infinix",base:96},
+{name:"Infinix Note 40 Pro",brand:"Infinix",base:94},
+{name:"Infinix Hot 40 Pro",brand:"Infinix",base:91}
+
+];
+
+
+let selectedDevice = null;
+
+
+const search =
+document.getElementById("search");
+
+const results =
+document.getElementById("phoneResults");
+
+const selected =
+document.getElementById("selected");
+
+
+search.addEventListener("input",function(){
+
+    const text =
+    search.value.toLowerCase().trim();
+
+    results.innerHTML="";
+
+    if(!text){
+
+        results.style.display="none";
+        return;
+
+    }
+
+
+    const matches =
+    phones.filter(function(phone){
+
+        return phone.name
+        .toLowerCase()
+        .includes(text);
+
+    });
+
+
+    results.style.display="block";
+
+
+    if(!matches.length){
+
+        results.innerHTML=
+        "<div style='padding:14px;color:#ff7777;text-align:center'>"+
+        "❌ ফোন পাওয়া যায়নি"+
+        "</div>";
+
+        return;
+
+    }
+
+
+    matches.forEach(function(phone){
+
+        const div =
+        document.createElement("div");
+
+        div.className="phone";
+
+        div.innerHTML=
+        "<b>📱 "+phone.name+"</b>"+
+        "<small>"+phone.brand+"</small>";
+
+
+        div.onclick=function(){
+
+            selectedDevice=phone;
+
+            search.value=phone.name;
+
+            selected.innerHTML=
+            "✅ নির্বাচিত: <b>"+
+            phone.name+
+            "</b>";
+
+            results.style.display="none";
+
+        };
+
+
+        results.appendChild(div);
+
+    });
+
+});
+
+
+document
+.getElementById("customButton")
+.addEventListener("click",function(){
+
+    const box=
+    document.getElementById("customBox");
+
+    box.style.display =
+    box.style.display==="block"
+    ? "none"
+    : "block";
+
+});
+
+
+document
+.getElementById("useCustom")
+.addEventListener("click",function(){
+
+    const name=
+    document.getElementById("customName")
+    .value.trim();
+
+    if(!name){
+
+        alert("আপনার ফোনের নাম লিখুন।");
+        return;
+
+    }
+
+
+    const ram=
+    Number(document.getElementById("ram").value);
+
+    const hz=
+    Number(document.getElementById("hz").value);
+
+    const performance=
+    document.getElementById("performance").value;
+
+
+    let base=84;
+
+
+    if(ram>=12) base+=8;
+    else if(ram>=8) base+=6;
+    else if(ram>=6) base+=4;
+    else if(ram>=4) base+=2;
+
+
+    if(hz>=165) base+=5;
+    else if(hz>=144) base+=4;
+    else if(hz>=120) base+=3;
+    else if(hz>=90) base+=1;
+
+
+    if(performance==="gaming") base+=5;
+    else if(performance==="high") base+=3;
+    else if(performance==="normal") base+=1;
+
+
+    selectedDevice={
+        name:name,
+        brand:"Custom Device",
+        base:Math.min(99,base),
+        ram:ram,
+        hz:hz
+    };
+
+
+    selected.innerHTML=
+    "✅ Custom Device: <b>"+
+    name+
+    "</b>";
+
+
+    document.getElementById("customBox")
+    .style.display="none";
+
+});
+
+
+document
+.getElementById("generate")
+.addEventListener("click",function(){
+
+    if(!selectedDevice){
+
+        alert(
+        "⚠️ আগে একটি ফোন নির্বাচন করুন।"
+        );
+
+        return;
+
+    }
+
+
+    let base=
+    selectedDevice.base;
+
+
+    const style=
+    document.getElementById("style").value;
+
+
+    if(style==="rush") base+=3;
+    if(style==="long") base-=4;
+
+
+    function limit(n){
+
+        return Math.max(
+        0,
+        Math.min(100,Math.round(n))
+        );
+
+    }
+
+
+    document.getElementById("general")
+    .textContent=limit(base);
+
+    document.getElementById("redDot")
+    .textContent=limit(base-3);
+
+    document.getElementById("scope2")
+    .textContent=limit(base-8);
+
+    document.getElementById("scope4")
+    .textContent=limit(base-15);
+
+    document.getElementById("sniper")
+    .textContent=limit(base-25);
+
+    document.getElementById("freeLook")
+    .textContent=limit(base+2);
+
+
+    let info=
+    "📱 Device: <b>"+
+    selectedDevice.name+
+    "</b>";
+
+
+    if(selectedDevice.ram){
+
+        info+=
+        "<br>💾 RAM: "+
+        selectedDevice.ram+
+        " GB"+
+        "<br>🖥️ Refresh Rate: "+
+        selectedDevice.hz+
+        " Hz";
+
+    }
+
+
+    document.getElementById("info")
+    .innerHTML=info;
+
+
+    document.getElementById("result")
+    .style.display="block";
+
+
+    document.getElementById("result")
+    .scrollIntoView({
+        behavior:"smooth"
+    });
+
+});
+
+
+document
+.getElementById("copy")
+.addEventListener("click",function(){
+
+    const text=
+`FF Sensitivity Profile
+
+Device: ${selectedDevice.name}
+
+General: ${document.getElementById("general").textContent}
+Red Dot: ${document.getElementById("redDot").textContent}
+2x Scope: ${document.getElementById("scope2").textContent}
+4x Scope: ${document.getElementById("scope4").textContent}
+Sniper: ${document.getElementById("sniper").textContent}
+Free Look: ${document.getElementById("freeLook").textContent}`;
+
+
+    if(navigator.clipboard){
+
+        navigator.clipboard
+        .writeText(text)
+        .then(function(){
+
+            alert("✅ Settings copied!");
+
+        });
+
+    }else{
+
+        alert("Copy feature এই browser-এ available নয়।");
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
